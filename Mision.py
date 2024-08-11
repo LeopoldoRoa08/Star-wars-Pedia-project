@@ -6,3 +6,11 @@ class Mision:
         self.armas=armas
         self.tripulacion=tripulacion
 
+    def Details(self):
+        print(f"""
+        nombre mision: {self.nombremision}
+        planeta destino: {self.planetadestino}
+        nave: {self.nave}
+        armas: {self.armas}
+        tripulacion: {self.tripulacion}
+        """)
