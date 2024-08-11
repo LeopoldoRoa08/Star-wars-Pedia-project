@@ -50,13 +50,13 @@ def main():
                   continue
 
             if eleccion==1:
-                  verPelis()
+                  verPelis(films)
             elif eleccion==2:
-                  verEspecie()
+                  verEspecie(species)
             elif eleccion==3:
-                  verPlanetas()
+                  verPlanetas(planets)
             elif eleccion==4:
-                 buscarPersona()
+                 buscarPersona(people)
             elif eleccion==5:
                   grafica_personajesnacidos()
             elif eleccion==6:
@@ -216,6 +216,93 @@ def grafico_caracteristicasNaves():
 #hiperimpulsor, MGLT, velocidad máxima en atmósfera y costo (en créditos) por clase de nave
 def estadisticas_naves():
       print("estadisticas de naves")
+      listado = []
+      path = "csv/starships.csv"
+      with open(path, mode='r', encoding='utf-8') as file:
+            reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
+            for nave in reader:
+                  if nave["hyperdrive_rating"] == "":
+                        nave["hyperdrive_rating"] = 0
+                  if nave["MGLT"] == "":
+                        nave["MGLT"] = 0
+                  if nave["max_atmosphering_speed"] == "":
+                        nave["max_atmosphering_speed"] = 0
+                  if nave["cost_in_credits"] == "":
+                        nave["cost_in_credits"] = 0
+
+                  listado.append([nave["hyperdrive_rating"], nave["MGLT"], nave["max_atmosphering_speed"], nave["cost_in_credits"]])
+
+                   #promedio
+      promedio1 = promedio(listado, 0)
+      promedio2 = promedio(listado, 1)
+      promedio3 = promedio(listado, 2)
+      promedio4 = promedio(listado, 3)
+
+      #moda
+      moda1 = moda(listado, 0)
+      moda2 = moda(listado, 1)
+      moda3 = moda(listado, 2)
+      moda4 = moda(listado, 3)
+
+      #maximo y minimo
+      maxymin1 = maximo_minimo(listado, 0)
+      maxymin2 = maximo_minimo(listado, 1)
+      maxymin3 = maximo_minimo(listado, 2)
+      maxymin4 = maximo_minimo(listado, 3)
+
+
+      print("\nCaracteristicas                     |    promedio            |    moda    |    maximo y minimo       |")
+      print("------------------------------------------------------------------------------------------------------")
+      print(f"Clasificación de hiperimpulsor      |    {promedio1}  |    {moda1}     |    {maxymin1}            |")
+      print(f"MGLT                                |    {promedio2}   |    {moda2}    |    {maxymin2}          |")
+      print(f"Velocidad máxima en atmósfera       |    {promedio3}   |    {moda3}   |    {maxymin3}         |")
+      print(f"Costo por creditos                  |    {promedio4}         |    {moda4}     |    {maxymin4}   |")
+
+
+      def promedio(data, caracteristica):
+      numbers = []
+      for item in data:
+            n=float(item[caracteristica])
+            numbers.append(n)
+      
+      average = sum(numbers) / float(len(numbers))
+      return average
+
+def moda(lista, caracteristica):
+    conteo_valores = {}
+
+    # Extraemos el número en la posición 1 de cada sublista y contamos sus ocurrencias
+    for sublista in lista:
+        numero = float(sublista[caracteristica])
+        if numero in conteo_valores:
+            conteo_valores[numero] += 1
+        else:
+            conteo_valores[numero] = 1
+
+    # Encontramos la moda buscando el número con el mayor conteo
+    moda = None
+    max_conteo = 0
+    for numero, conteo in conteo_valores.items():
+        if conteo > max_conteo:
+            max_conteo = conteo
+            moda = numero
+
+    return moda
+
+def maximo_minimo(lista, caracteristica):
+    numeros = []
+
+    # Extraemos el número en la posición 1 de cada sublista y lo agregamos a la lista 'numeros'
+    for sublista in lista:
+        numero = float(sublista[caracteristica])
+        numeros.append(numero)
+
+    # Calculamos el máximo y el mínimo de la lista 'numeros'
+    maximo = max(numeros)
+    minimo = min(numeros)
+
+    return maximo, minimo
+
 #funcion que permite crear un equipo, nombre, planeta de destino, nave a utilizar, armas a utilizar y nombre de la mision
 def construirMision(films, people, planets, species, starships, vehicles, listaMisiones):
     listaMisiones=[]
