@@ -1,18 +1,20 @@
-from Especies import Especies
+from Especie import Especie
 from Mision import Mision
 from Nave import Nave
-from PeliculasSaga import PeliculasSaga
+from PeliculaSaga import PeliculaSaga
 from Personaje import Personaje
 from Planeta import Planeta
 from Vehiculo import Vehiculo
 
 
 from LoadFiles import cargar_info
+import requests
 import csv
 
 #Funcion main encargada de detallar las opciones que tiene para escoger el usuario,
 #cuyas opciones corresponden a cada opcion indicada en el archivo del proyecto.
 def main():
+      obtener_info()
       print("                En un lugar muy lejano                  ")
       print("             Donde hay multiples opciones           ")
       print("                Tu eres el indicado                   ")
@@ -250,6 +252,93 @@ def construirMision():
             print("Dato no valido, indicar un numero comprendido entre 1-5")
     
 
+def obtener_info():
+      url = "https://www.swapi.tech/api"
+      links = requests.get(url).json()["result"]
+      
+      for link in links:
+            info = requests.get(links[link]).json()
+            
+            if link == "films":
+                  info = requests.get(links[link]).json()
+                  info= info["result"]
+                  for f in range(0, len(info)):
+                        #print(info[f]["properties"]["title"])
+                        pelicula = PeliculaSaga(info[f]["properties"]["title"], info[f]["properties"]["episode_id"], info[f]["properties"]["release_date"], info[f]["properties"]["opening_crawl"], info[f]["properties"]["director"], info[f]["properties"]["characters"], info[f]["properties"]["planets"], info[f]["properties"]["starships"], info[f]["properties"]["vehicles"], info[f]["properties"]["species"], info[f]["uid"])
+                        #guardar
+
+            elif link == "people":
+                  link = links[link]
+                  while link:
+                        r = requests.get(link).json()
+                        info = r['results']
+
+                        for f in range(0, len(info)):
+                              infoo = (requests.get(info[f]["url"]).json())['result']
+                              '''
+                              info["properties"]["episode"]
+                              info["properties"]["species"]
+                              info["properties"]["starship"]
+                              info["properties"]["vehicles"]
+                              '''
+                              personaje = Personaje(infoo["properties"]["name"], infoo["properties"]["homeworld"], [], infoo["properties"]["gender"], [], [], [], infoo["uid"])
+
+                        link = r["next"]
+                        
+            elif link == "planets":
+                  link = links[link]
+                  while link:
+                        r = requests.get(link).json()
+                        info = r['results']
+
+                        for f in range(0, len(info)):
+                              infoo = (requests.get(info[f]["url"]).json())['result']
+                              '''
+                              infoo["properties"]["episode"]
+                              infoo["properties"]["people"],
+                              '''
+                              planeta = Planeta(infoo["properties"]["name"], infoo["properties"]["orbital_period"], infoo["properties"]["rotation_period"], infoo["properties"]["climate"], infoo["properties"]["population"], [], [], infoo["uid"])
+
+                        link = r["next"]
+
+            elif link == "species":
+                  link = links[link]
+                  while link:
+                        r = requests.get(link).json()
+                        info = r['results']
+
+                        for f in range(0, len(info)):
+                              infoo = (requests.get(info[f]["url"]).json())['result']
+                              '''
+                              infoo["properties"]["people"]
+                              infoo["properties"]["episode"]
+                              '''
+                              especie = Especie(infoo["properties"]["name"], infoo["properties"]["average_height"], infoo["properties"]["classification"], infoo["properties"]["homeworld"], infoo["properties"]["language"], [], [], infoo["uid"])
+
+                        link = r["next"]
+
+            elif link == "starships":
+                  link = links[link]
+                  while link:
+                        r = requests.get(link).json()
+                        info = r['results']
+
+                        for f in range(0, len(info)):
+                              infoo = (requests.get(info[f]["url"]).json())['result']
+                              nave = Nave(infoo["properties"]["model"], infoo["properties"]["starship_class"], infoo["properties"]["manufacturer"], infoo["properties"]["cost_in_credits"], infoo["properties"]["length"], infoo["properties"]["crew"], infoo["properties"]["passengers"], infoo["properties"]["max_atmosphering_speed"], infoo["properties"]["hyperdrive_rating"], infoo["properties"]["MGLT"], infoo["properties"]["cargo_capacity"], infoo["properties"]["consumables"], infoo["properties"]["pilots"], infoo["properties"]["name"], infoo["uid"])
+
+                        link = r["next"]
+            elif link == "vehicles":
+                  link = links[link]
+                  while link:
+                        r = requests.get(link).json()
+                        info = r['results']
+
+                        for f in range(0, len(info)):
+                              infoo = (requests.get(info[f]["url"]).json())['result']
+                              vehiculo = Vehiculo(infoo["properties"]["model"],infoo["properties"]["vehicle_class"],infoo["properties"]["manufacturer"],infoo["properties"]["cost_in_credits"],infoo["properties"]["length"],infoo["properties"]["crew"],infoo["properties"]["passengers"],infoo["properties"]["max_atmosphering_speed"],infoo["properties"]["cargo_capacity"],infoo["properties"]["consumables"],infoo["properties"]["films"],infoo["properties"]["pilots"],infoo["properties"]["name"],infoo["uid"])
+
+                        link = r["next"]
 
 
 main()

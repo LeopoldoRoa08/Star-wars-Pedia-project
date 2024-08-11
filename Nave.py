@@ -16,7 +16,6 @@ class Nave:
         self.name = name
         self.uid = uid
 
-
     def Details(self):
         print(f"""
         Modelo: {self.model}
