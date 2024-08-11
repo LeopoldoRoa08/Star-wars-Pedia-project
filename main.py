@@ -337,7 +337,7 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               planet.Details()
                     
                     planeta=input("Indicanos el nombre del PLANETA al que deseas viajar o presiona 'fin' si deseas salir: ")
-                    while not planeta.strip():
+                    while not planeta.isnumeric() or not int(planeta) in range(0, len(planets)):
                         planeta=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
                     
                     planeta = planets[int(planeta)-1].name
@@ -348,7 +348,7 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               starship.Details()
                     
                     nave=input("Indicanos la NAVE que deseas utilizar o presiona 'fin' si deseas salir: ")
-                    while not nave.strip():
+                    while not nave.isnumeric() or not int(nave) in range(0, len(starships)):
                         nave=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
                     
                     nave = starships[int(nave)-1].name
