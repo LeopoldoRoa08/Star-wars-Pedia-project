@@ -9,13 +9,13 @@ class Personaje:
         self.vehicles=vehicles
         self.uid = uid
 
-def Details(self):
-    print(f"""
-    Nombre de la especie: {self.name}
-    Mundo de origen: {self.homeworld}
-    Titulos de episodios:{self.episode}
-    Genero:{self.gender}
-    Especies:{self.species}
-    Nave:{self.starship}
-    Vehiculos: {self.vehicles}
-    """)
+    def Details(self):
+        print(f"""
+        Nombre de la especie: {self.name}
+        Mundo de origen: {self.homeworld}
+        Titulos de episodios:{self.episode}
+        Genero:{self.gender}
+        Especies:{self.species}
+        Nave:{self.starship}
+        Vehiculos: {self.vehicles}
+        """)

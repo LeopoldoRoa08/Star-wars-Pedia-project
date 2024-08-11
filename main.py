@@ -14,7 +14,15 @@ import csv
 #Funcion main encargada de detallar las opciones que tiene para escoger el usuario,
 #cuyas opciones corresponden a cada opcion indicada en el archivo del proyecto.
 def main():
-      obtener_info()
+      films = []
+      people = []
+      planets = []
+      species = []
+      starships = []
+      vehicles = []
+      listaMisiones = []
+      obtener_info(films, people, planets, species, starships, vehicles)
+      
       print("                En un lugar muy lejano                  ")
       print("             Donde hay multiples opciones           ")
       print("                Tu eres el indicado                   ")
@@ -55,7 +63,7 @@ def main():
             elif  eleccion==7:
                   estadisticas_naves()
             elif eleccion==8:
-                  construirMision()
+                  construirMision(films, people, planets, species, starships, vehicles, listaMisiones)
             elif eleccion==9:
                   print("Hasta luego guerrero...")
                   break
@@ -90,8 +98,16 @@ def verPlanetas():
 
 #funcion encargada de buscar a una persona por su nombre,
 #la cual mostrara una lista con las especies que coincidan con ese nombre
-def buscarPersona():
-      print("Persona encontrada")
+def buscarPersona(people):
+      nombre = input("Ingrese el nombre del personaje: ")
+    
+      #Recorre la lista de personajes, si el nombre del objecto contiene el string que se busca muestra el objecto
+      aux = 1
+      for persona in people:
+            if nombre.lower() in persona.name.lower():
+                  print(aux)
+                  persona.Details()
+                  aux = aux + 1
 #funcion encargada de mostrar un grafico de cada personaje nacido en cada planeta
 def grafica_personajesnacidos():
       print("se muestra garfica")
@@ -103,7 +119,7 @@ def grafico_caracteristicasNaves():
 def estadisticas_naves():
       print("estadisticas de naves")
 #funcion que permite crear un equipo, nombre, planeta de destino, nave a utilizar, armas a utilizar y nombre de la mision
-def construirMision():
+def construirMision(films, people, planets, species, starships, vehicles, listaMisiones):
     listaMisiones=[]
     print("="*70)
     print("Preparate para crear una mision a tu conveniencia")
@@ -127,20 +143,31 @@ def construirMision():
                     nombreMision=input("Indicanos el nombre de la SUPER mision o presiona 'fin' si deseas salir: ").lower()
                     while not nombreMision.strip():
                         nombreMision=input("No puede estar vacia o presiona 'fin' si deseas salir: ")# validacion para que no quede vacia
-                    if nombreMision=='fin':
-                         break
+                    
+                    
+                    
+                    
+                    for index, planet in enumerate(planets):
+                              print(index+1)
+                              planet.Details()
                     
                     planeta=input("Indicanos el nombre del PLANETA al que deseas viajar o presiona 'fin' si deseas salir: ")
                     while not planeta.strip():
                         planeta=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
-                    if planeta=='fin':
-                         break
+                    
+                    planeta = planets[int(planeta)-1].name
+                        
+
+                    for index, starship in enumerate(starships):
+                              print(index+1)
+                              starship.Details()
                     
                     nave=input("Indicanos la NAVE que deseas utilizar o presiona 'fin' si deseas salir: ")
                     while not nave.strip():
                         nave=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
-                    if nave=='fin':
-                         break
+                    
+                    nave = starships[int(nave)-1].name
+                    
                     #=========================================================================haciendo==============
                     armas = []
 
@@ -152,9 +179,7 @@ def construirMision():
                     with open(path, mode='r', encoding='utf-8') as file:
                           reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
 
-                  # Imprimir encabezados para una mejor comprensión
-                    print(f"{'Name':<30}")
-                    print("="*30)
+                 
 
                   # Imprimir solo el nombre de cada arma
                     for fila in reader:
@@ -192,15 +217,9 @@ def construirMision():
 
                     print(f"Lista final de IDs de armas: {armas}")
 
-                  # Pregunta si desea continuar o salir
-                    #continuar = input("¿Deseas continuar con otra selección? (sí/no): ").strip().lower()
-                    #if continuar != 'sí':
-                     #   break
-
-
-                  #======================================LISTO=====================================================
-                    print("==============TRIPULACION================")
-                    print("Ahora ingresa los nombres de la lista para poder crear tu TRIPULACION ")
+                  
+                    
+                    
                     tripulacion=[]
                     # se crea una lista de tripulacion a medida que vaya agregando personas y asi llevar un conteo 
                     # y detenerlo hasta que llegue a 5
@@ -252,7 +271,7 @@ def construirMision():
             print("Dato no valido, indicar un numero comprendido entre 1-5")
     
 
-def obtener_info():
+def obtener_info(films, people, planets, species, starships, vehicles):
       url = "https://www.swapi.tech/api"
       links = requests.get(url).json()["result"]
       
@@ -265,7 +284,7 @@ def obtener_info():
                   for f in range(0, len(info)):
                         #print(info[f]["properties"]["title"])
                         pelicula = PeliculaSaga(info[f]["properties"]["title"], info[f]["properties"]["episode_id"], info[f]["properties"]["release_date"], info[f]["properties"]["opening_crawl"], info[f]["properties"]["director"], info[f]["properties"]["characters"], info[f]["properties"]["planets"], info[f]["properties"]["starships"], info[f]["properties"]["vehicles"], info[f]["properties"]["species"], info[f]["uid"])
-                        #guardar
+                        films.append(pelicula)
 
             elif link == "people":
                   link = links[link]
@@ -282,7 +301,7 @@ def obtener_info():
                               info["properties"]["vehicles"]
                               '''
                               personaje = Personaje(infoo["properties"]["name"], infoo["properties"]["homeworld"], [], infoo["properties"]["gender"], [], [], [], infoo["uid"])
-
+                              people.append(personaje)
                         link = r["next"]
                         
             elif link == "planets":
@@ -298,7 +317,7 @@ def obtener_info():
                               infoo["properties"]["people"],
                               '''
                               planeta = Planeta(infoo["properties"]["name"], infoo["properties"]["orbital_period"], infoo["properties"]["rotation_period"], infoo["properties"]["climate"], infoo["properties"]["population"], [], [], infoo["uid"])
-
+                              planets.append(planeta)
                         link = r["next"]
 
             elif link == "species":
@@ -314,7 +333,7 @@ def obtener_info():
                               infoo["properties"]["episode"]
                               '''
                               especie = Especie(infoo["properties"]["name"], infoo["properties"]["average_height"], infoo["properties"]["classification"], infoo["properties"]["homeworld"], infoo["properties"]["language"], [], [], infoo["uid"])
-
+                              species.append(especie)
                         link = r["next"]
 
             elif link == "starships":
@@ -326,7 +345,7 @@ def obtener_info():
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
                               nave = Nave(infoo["properties"]["model"], infoo["properties"]["starship_class"], infoo["properties"]["manufacturer"], infoo["properties"]["cost_in_credits"], infoo["properties"]["length"], infoo["properties"]["crew"], infoo["properties"]["passengers"], infoo["properties"]["max_atmosphering_speed"], infoo["properties"]["hyperdrive_rating"], infoo["properties"]["MGLT"], infoo["properties"]["cargo_capacity"], infoo["properties"]["consumables"], infoo["properties"]["pilots"], infoo["properties"]["name"], infoo["uid"])
-
+                              starships.append(nave)
                         link = r["next"]
             elif link == "vehicles":
                   link = links[link]
@@ -337,6 +356,7 @@ def obtener_info():
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
                               vehiculo = Vehiculo(infoo["properties"]["model"],infoo["properties"]["vehicle_class"],infoo["properties"]["manufacturer"],infoo["properties"]["cost_in_credits"],infoo["properties"]["length"],infoo["properties"]["crew"],infoo["properties"]["passengers"],infoo["properties"]["max_atmosphering_speed"],infoo["properties"]["cargo_capacity"],infoo["properties"]["consumables"],infoo["properties"]["films"],infoo["properties"]["pilots"],infoo["properties"]["name"],infoo["uid"])
+                              vehicles.append(vehiculo)
 
                         link = r["next"]
 
