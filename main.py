@@ -96,6 +96,12 @@ def verEspecie():
 def verPlanetas():
       print("ver planetas")
 
+#funcion que muestra la lista de todas las peliculas
+def verPelis(films):
+      print("ver peliculas")
+      for film in films:
+            film.Details()
+
 #funcion encargada de buscar a una persona por su nombre,
 #la cual mostrara una lista con las especies que coincidan con ese nombre
 def buscarPersona(people):

@@ -10,13 +10,13 @@ class Especie:
         self.uid = uid
 
 
-def Details(self):
-    print(f"""
-    Nombre de la especie: {self.name}
-    Altura:{self.average_height}
-    Clasificacion:{self.classification}
-    Planeta de origen:{self.homeworld}
-    Idioma:{self.language}
-    Personas:{self.people}
-    Episodios: {self.episode}
-    """)
+    def Details(self):
+     print(f"""
+        Nombre de la especie: {self.name}
+        Altura:{self.average_height}
+        Clasificacion:{self.classification}
+        Planeta de origen:{self.homeworld}
+        Idioma:{self.language}
+        Personas:{self.people}
+        Episodios: {self.episode}
+        """)
