@@ -8,6 +8,7 @@ from Vehiculo import Vehiculo
 
 
 from LoadFiles import cargar_info
+import matplotlib.pyplot as plt
 import requests
 import csv
 
@@ -21,7 +22,7 @@ def main():
       starships = []
       vehicles = []
       listaMisiones = []
-      obtener_info(films, people, planets, species, starships, vehicles)
+      #obtener_info(films, people, planets, species, starships, vehicles)
       
       print("                En un lugar muy lejano                  ")
       print("             Donde hay multiples opciones           ")
@@ -90,11 +91,15 @@ def main():
 
 
 #funcion que muestra todas las especies de la saga (ordenado por ID) 
-def verEspecie():
+def verEspecie(species):
       print("ver especies")
+      for specie in species:
+            specie.Details()
 #funcion que muestra la lista de los planetas
-def verPlanetas():
+def verPlanetas(planets):
       print("ver planetas")
+      for planet in planets:
+            planet.Details()
 
 #funcion que muestra la lista de todas las peliculas
 def verPelis(films):
@@ -117,9 +122,96 @@ def buscarPersona(people):
 #funcion encargada de mostrar un grafico de cada personaje nacido en cada planeta
 def grafica_personajesnacidos():
       print("se muestra garfica")
+      numeros = {}
+      planets = []
+      dato = []
+      path = "csv/planets.csv"
+      # Lee el archivo CSV y guarda los datos
+      with open(path, mode='r', encoding='utf-8') as file:
+            reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
+            for planeta in reader:
+                  planets.append(planeta['name'])
+                  numeros[planeta['name']] = 0
+
+      path = "csv/characters.csv"
+      with open(path, mode='r', encoding='utf-8') as file:
+            reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
+            for character in reader:
+                  for p in numeros:
+                        if p == character['homeworld']:
+                              numeros[p] += 1
+      
+      for p in numeros:
+            dato.append(numeros[p])
+
+      plt.figure(figsize=(15, 4))
+      plt.plot(planets, dato)
+      plt.xlabel('Planetas')
+      plt.ylabel('Cantidad Nacidos')
+      plt.show()
+
 #funcion que Grafica las caracteristicas de las naves
 def grafico_caracteristicasNaves():
       print("se muestra Grafica de naves")
+      while True:
+            print("""
+                  1) Grafico de Longitud de la nave
+                  2) Grafico de Capacidad de carga
+                  3) Grafico de Clasificación de hiperimpulsor
+                  4) Grafico de MGLT (Modern Galactic Light Time)
+                  5) Salir """)
+
+            try:
+                  eleccion=int(input("Escribe el numero correspondiente a lo que deseas: ").replace(" ",""))
+            except ValueError:
+                  print("Ingresar los numeros correspondientes")
+                  continue
+            
+            Longitud = []
+            Capacidad = []
+            hiperimpulsor = []
+            MGLT = []
+            naves = []
+
+            path = "csv/starships.csv"
+            with open(path, mode='r', encoding='utf-8') as file:
+                  reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
+                  for nave in reader:
+                        Longitud.append(nave["length"])
+                        Capacidad.append(nave["cargo_capacity"])
+                        hiperimpulsor.append(nave["hyperdrive_rating"])
+                        MGLT.append(nave["MGLT"])
+                        naves.append(nave["name"])
+            
+            
+            
+            
+            plt.figure(figsize=(13, 8))
+            plt.xticks(rotation=90, fontsize=10)
+            
+            if eleccion==1:
+                  plt.bar(naves, Longitud)
+                  plt.xlabel('naves')
+                  plt.ylabel('Longitud de la nave')
+                  plt.show()
+            elif eleccion==2:
+                  plt.bar(naves, Capacidad)
+                  plt.xlabel('naves')
+                  plt.ylabel('Capacidad de carga')
+                  plt.show()
+            elif eleccion==3:
+                  plt.bar(naves, hiperimpulsor)
+                  plt.xlabel('naves')
+                  plt.ylabel('Clasificación de hiperimpulsor')
+                  plt.show()
+            elif eleccion==4:
+                  plt.bar(naves, MGLT)
+                  plt.xlabel('naves')
+                  plt.ylabel('MGLT (Modern Galactic Light Time)')
+                  plt.show()
+            elif eleccion==5:
+                  break
+
 #estadísticos básicos como el promedio, la moda y el máximo/mínimo) de las variables: Clasificación de
 #hiperimpulsor, MGLT, velocidad máxima en atmósfera y costo (en créditos) por clase de nave
 def estadisticas_naves():
