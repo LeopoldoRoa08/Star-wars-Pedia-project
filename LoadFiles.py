@@ -1,6 +1,5 @@
 import json
 from urllib.request import Request, urlopen
-from urllib.error import URLError, HTTPError
 
 def cargar_info(url):
         # Crear una solicitud con encabezados personalizados
@@ -11,10 +10,5 @@ def cargar_info(url):
   
 
 # Ejemplo de uso
-url = "https://www.swapi.tech/api/"
-datos = cargar_info(url)
-
-if datos:
-    print(datos)
-else:
-    print("No se pudieron cargar los datos.")
+#url = "https://www.swapi.tech/api/"
+#datos = cargar_info(url)
