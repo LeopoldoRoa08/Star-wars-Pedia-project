@@ -1,19 +1,22 @@
 class Especies:
-    def __init__(self,name,average_height,classification,homeworld,language,people):
+    def __init__(self,name,average_height,classification,homeworld,language,people, episode, uid):
         self.name=name
         self.average_height=average_height
         self.classification=classification
         self.homeworld=homeworld
         self.language=language
         self.people=people
+        self.episode=episode
+        self.uid = uid
 
-    """g. Nombre de los episodios en los que aparecen.<----FALTA"""
-def EspeciesDetails(self):
+
+def Details(self):
     print(f"""
-    Nombre de la especie: {self.name}\n 
-    Altura:{self.average_height}\n 
-    Clasificacion:{self.classification}\n 
-    Planeta de origen:{self.homeworld}\n
-    Idioma:{self.language}\n 
-    Personas:{self.people}""")
-    
+    Nombre de la especie: {self.name}
+    Altura:{self.average_height}
+    Clasificacion:{self.classification}
+    Planeta de origen:{self.homeworld}
+    Idioma:{self.language}
+    Personas:{self.people}
+    Episodios: {self.episode}
+    """)
