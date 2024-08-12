@@ -22,7 +22,7 @@ def main():
       vehicles = []
       listaMisiones = []
       obtener_info(films, people, planets, species, starships, vehicles)
-
+      
       print("                En un lugar muy lejano                  ")
       print("             Donde hay multiples opciones           ")
       print("                Tu eres el indicado                   ")
@@ -94,13 +94,13 @@ def verEspecie(species):
       print("ver especies")
       for specie in species:
             specie.Details()
-
 #funcion que muestra la lista de los planetas
 def verPlanetas(planets):
       print("ver planetas")
       for planet in planets:
             planet.Details()
 
+#funcion que muestra la lista de todas las peliculas
 def verPelis(films):
       print("ver peliculas")
       for film in films:
@@ -118,12 +118,9 @@ def buscarPersona(people):
                   print(aux)
                   persona.Details()
                   aux = aux + 1
-
-
 #funcion encargada de mostrar un grafico de cada personaje nacido en cada planeta
 def grafica_personajesnacidos():
       print("se muestra grafica")
-
       numeros = {}
       planets = []
       dato = []
@@ -134,7 +131,6 @@ def grafica_personajesnacidos():
             for planeta in reader:
                   planets.append(planeta['name'])
                   numeros[planeta['name']] = 0
-      
       path = "csv/characters.csv"
       with open(path, mode='r', encoding='utf-8') as file:
             reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
@@ -145,16 +141,12 @@ def grafica_personajesnacidos():
       
       for p in numeros:
             dato.append(numeros[p])
-      
-      
       plt.figure(figsize=(15, 4))
       plt.plot(planets, dato)
       plt.xlabel('Planetas')
       plt.ylabel('Cantidad Nacidos')
       plt.show()
 
-                        
-      
 #funcion que Grafica las caracteristicas de las naves
 def grafico_caracteristicasNaves():
       print("se muestra Grafica de naves")
@@ -217,13 +209,10 @@ def grafico_caracteristicasNaves():
             elif eleccion==5:
                   break
 
-
-
 #estadísticos básicos como el promedio, la moda y el máximo/mínimo) de las variables: Clasificación de
 #hiperimpulsor, MGLT, velocidad máxima en atmósfera y costo (en créditos) por clase de nave
 def estadisticas_naves():
       print("estadisticas de naves")
-
       listado = []
       path = "csv/starships.csv"
       with open(path, mode='r', encoding='utf-8') as file:
@@ -239,8 +228,8 @@ def estadisticas_naves():
                         nave["cost_in_credits"] = 0
 
                   listado.append([nave["hyperdrive_rating"], nave["MGLT"], nave["max_atmosphering_speed"], nave["cost_in_credits"]])
-      
-      #promedio
+
+                   #promedio
       promedio1 = promedio(listado, 0)
       promedio2 = promedio(listado, 1)
       promedio3 = promedio(listado, 2)
@@ -265,7 +254,6 @@ def estadisticas_naves():
       print(f"MGLT                                |    {promedio2}   |    {moda2}    |    {maxymin2}          |")
       print(f"Velocidad máxima en atmósfera       |    {promedio3}   |    {moda3}   |    {maxymin3}         |")
       print(f"Costo por creditos                  |    {promedio4}         |    {moda4}     |    {maxymin4}   |")
-
 
 
 def promedio(data, caracteristica):
@@ -314,30 +302,82 @@ def maximo_minimo(lista, caracteristica):
 
 #funcion que permite crear un equipo, nombre, planeta de destino, nave a utilizar, armas a utilizar y nombre de la mision
 def construirMision(films, people, planets, species, starships, vehicles, listaMisiones):
-      
-      print("="*70)
-      print("Preparate para crear una mision a tu conveniencia")
-      print("Que deseas hacer?")
-      while True:
-            print("Para seleccionar una opcion, escribe el numero correspondiente")
-            print("1)Crear mision ")
-            print("2)Editar mision")
-            print("3)Visualizar mision")
-            print("4)Guardar misiones  en el TXT)")
-            print("5)Cargar misiones guardadas en el txt")
-            print("6)Regresar al menu")
-            try:
-                eleccion=int(input("Escribe el numero correspondiente a lo que deseas: "))
-            except ValueError:
+    
+    print("="*70)
+    print("Preparate para crear una mision a tu conveniencia")
+    print("Que deseas hacer?")
+    while True:
+        print("Para seleccionar una opcion, escribe el numero correspondiente")
+        print("1)Crear mision ")
+        print("2)Editar mision")
+        print("3)Visualizar mision")
+        print("4)Guardar misiones  en el TXT)")
+        print("5)Cargar misiones guardadas en el TXT")
+        print("6)Regresar al menu")
+        try:
+            eleccion=int(input("Escribe el numero correspondiente a lo que deseas: "))
+        except ValueError:
                   print("Ingresar los numeros correspondientes")
                   continue
-            if eleccion==1:
-                
-                  if len(listaMisiones)<5:
-                       
-                        nombreMision=input("Indicanos el nombre de la SUPER mision: ").lower()
-                        while not nombreMision.strip():
-                              nombreMision=input("No puede estar vacia o ingresa 'fin' si deseas salir: ")# validacion para que no quede vacia
+        if eleccion==1:
+            
+                if len(listaMisiones)<5:
+                   
+                    nombreMision=input("Indicanos el nombre de la SUPER mision: ").lower()
+                    while not nombreMision.strip():
+                        nombreMision=input("No puede estar vacia o presiona 'fin' si deseas salir: ")# validacion para que no quede vacia
+                    
+                    
+                    
+                    
+                    for index, planet in enumerate(planets):
+                              print(index+1)
+                              planet.Details()
+                    
+                    planeta=input("Indicanos el nombre del PLANETA al que deseas viajar o presiona 'fin' si deseas salir: ")
+                    while not planeta.isnumeric() or not int(planeta) in range(1, len(planets)+1):
+                        planeta=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                        if planeta=='fin':
+                                    break
+                    
+                    planeta = planets[int(planeta)-1].name
+                        
+
+                    for index, starship in enumerate(starships):
+                              print(index+1)
+                              starship.Details()
+                    
+                    nave=input("Indicanos la NAVE que deseas utilizar o presiona 'fin' si deseas salir: ")
+                    while not nave.isnumeric() or not int(nave) in range(1, len(starships)+1):
+                        nave=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                        if nave=='fin':
+                                    break
+                    
+                    nave = starships[int(nave)-1].name
+                    
+                    #=========================================================================haciendo==============
+                    armas = []
+
+                    
+                  # Ruta del archivo CSV
+                    path = r"csv\weapons.csv"
+
+                  # Lee el archivo CSV y guarda los datos
+                    with open(path, mode='r', encoding='utf-8') as file:
+                          reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
+
+                 
+
+                  # Imprimir solo el nombre de cada arma
+                    for fila in reader:
+                        print(f"{fila['name']:<30}")
+
+                  # Crear un diccionario para buscar IDs por nombre
+                    armas_dict = {fila['name'].lower(): fila['id'] for fila in reader}
+
+                  # Selección de armas por nombre
+                    while len(armas) < 7:
+                            nombre_arma = input("Ingresa el nombre del arma a seleccionar o presiona 'fin' si deseas salir: ").strip().lower()
                         
                         
 
@@ -345,10 +385,29 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               print(index+1)
                               planet.Details()
 
-                        planeta=input("Indicanos el numero del PLANETA al que deseas viajar o ingresa 'fin' si deseas salir: ")
-                        while not planeta.isnumeric() or not int(planeta) in range(1, len(planets)+1):
-                              planeta=input("indica un numero valido o ingresa 'fin' si deseas salir: ")
-                              if planeta=='fin':
+                    if len(armas) > 7:
+                        print("El número máximo de armas es 7. Excediste el límite.")
+                        armas = armas[:7]  # Limita la lista a 7 armas
+
+                    print(f"Lista final de IDs de armas: {armas}")
+
+                  
+                    
+                    
+                    tripulacion=[]
+                    # se crea una lista de tripulacion a medida que vaya agregando personas y asi llevar un conteo 
+                    # y detenerlo hasta que llegue a 5
+                    url="https://www.swapi.tech/api/people" #consume la api directamente en la parte de people que es lo que se usa
+                    datos=cargar_info(url)
+                    data=datos["results"]
+                    for names in data:
+                        print(names['name'].lower().strip().replace(" ","")) 
+                    while len(tripulacion)<5:
+
+                        IngresarTripulacion=input("Ingresa el nombre del personajes a seleccionar o copie y pegue el nombre,  o presiona 'fin' si deseas salir: ").lower()
+                        while not IngresarTripulacion.strip():
+                              IngresarTripulacion=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                        if IngresarTripulacion=='fin':
                                     break
                         planeta = planets[int(planeta)-1].name
                         
@@ -402,63 +461,20 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                                     else:
                                           print(f"El arma '{nombre_arma}' ya está en la lista.")
                               else:
-                                    print("Nombre no válido. Por favor, ingresa un nombre válido.")
-    
-                        if len(armas) > 7:
-                              print("El número máximo de armas es 7. Excediste el límite.")
-                              armas = armas[:7]  # Limita la lista a 7 armas
-    
-                        print(f"Lista final de IDs de armas: {armas}")
-    
-                        
-    
-    
-                        
-                        tripulacion=[]
-                        # se crea una lista de tripulacion a medida que vaya agregando personas y asi llevar un conteo 
-                        # y detenerlo hasta que llegue a 5
-                        url="https://www.swapi.tech/api/people" #consume la api directamente en la parte de people que es lo que se usa
-                        datos=cargar_info(url)
-                        data=datos["results"]
-                        for names in data:
-                            print(names['name'].lower().strip().replace(" ","")) 
-                        while len(tripulacion)<5:
-    
-                              IngresarTripulacion=input("Ingresa el nombre del personajes a seleccionar o copie y pegue el nombre,  o presiona 'fin' si deseas salir: ").lower()
-                              while not IngresarTripulacion.strip():
-                                    IngresarTripulacion=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
-                              if IngresarTripulacion=='fin':
-                                    break
-                              #se recorrera la api para buscar y verificar que el nombre que ingreso el usuario exista en las opciones ofrecidas anteriormente
-                              encontrado=False
-                              for names in data:
-                                    if names['name'].lower().replace(" ", "") == IngresarTripulacion.replace(" ", ""):
+                                    print(f"{nombreReal} ya está en la tripulación. No se puede REPETIR.")            
                                     
-                                          encontrado = True
-                                          nombreReal = names['name']
-                                          break
-        
-                              if encontrado:
-                                    if nombreReal not in tripulacion:
-                                          tripulacion.append(names['name'])
-                                          print(f"{nombreReal} agregado a la tripulación!")
-                                    else:
-                                          print(f"{nombreReal} ya está en la tripulación. No se puede REPETIR.")            
-                                          
-                              else:
-                                    print("Nombre inválido, solo se pueden ingresar nombres que se encuentren en la lista mencionada")
-    
-                        if  len(tripulacion)>5:
-                            print("El maximo de tripulacion es de 5 tripulantes.")
-                      #aca se iran agregando los datos a la lista de misiones 
+                        else:
+                              print("Nombre inválido, solo se pueden ingresar nombres que se encuentren en la lista mencionada")
 
-                        misionObject=Mision(nombreMision,planeta,nave,armas,tripulacion)
-
-                        listaMisiones.append(misionObject)
-                  else:
-                        print("El maximo de misiones a crear son 5")
-            elif eleccion == 2:  # Aquí se escoge editar misión
-                  # Se imprime la lista de misiones
+                    if  len(tripulacion)>5:
+                        print("El maximo de tripulacion es de 5 tripulantes.")
+                  #aca se iran agregando los datos a la lista de misiones 
+                    misionObject=Mision(nombreMision,planeta,nave,armas,tripulacion)
+                    listaMisiones.append(misionObject)
+                else:
+                     print("El maximo de misiones a crear son 5")
+        elif eleccion==2:  # Aquí se escoge editar misión
+            # Se imprime la lista de misiones
                   if len(listaMisiones) == 0:
                         print("No se ha creado ninguna misión.")
                         print("Crea una primero y luego vuelve para editar.")
@@ -543,36 +559,86 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                         else:
                               print("Misión no encontrada.")
 
-            elif eleccion==3:
-                 for showmission in listaMisiones:
+            
+        elif eleccion==3:
+            for showmission in listaMisiones:
                        print(showmission.Details())
-                 misionaSeleccionar=input("Ingresa el NOMBRE de la mision que deseas modificar o escribe 'fin' para salir ").lower().strip()
-                 if misionaSeleccionar=='fin':
+            misionaSeleccionar=input("Ingresa el NOMBRE de la mision que deseas modificar o escribe 'fin' para salir ").lower().strip()
+            if misionaSeleccionar=='fin':
                        break
-                 misionEncontrada=False
-                 mision =""
+            misionEncontrada=False
+            mision =""
                  #Se buscara en la lista de misiones por el nombre
 
-                 for buscandoMisionSeleccionada in listaMisiones:
+            for buscandoMisionSeleccionada in listaMisiones:
                         if buscandoMisionSeleccionada["nombremision"].lower().strip()== misionaSeleccionar:
                               misionEncontrada=True
                               mision=buscandoMisionSeleccionada
-                 print("La mision que has escogido es: ")
-                 print(mision.Details())
-            elif eleccion==4:#Aqui se guarda en el txt
-                  for mision in listaMisiones:
+            print("La mision que has escogido es: ")
+            print(mision.Details())
+            print("visualizas una mision")
+        elif eleccion==4:#Aqui se guarda en el txt
+           for mision in listaMisiones:
                         mision.guardar_misiones("misioneslocas.txt")
-                  print("Se ha guardado con exito\n")
-            elif eleccion==5:#Aqui se cargan las misiones guardadas en el txt
-                  listaMisiones=cargar_misiones_desde_txt("misioneslocas.txt")
-                  for mis in listaMisiones:
+           print("Se ha guardado con exito\n")
+        elif eleccion ==5:#Aqui se cargan las misiones guardadas en el txt
+           listaMisiones=cargar_misiones_desde_txt("misioneslocas.txt")
+           for mis in listaMisiones:
                         mis.Details()
-                  print("Aqui se cargan las misiones")
-            elif eleccion ==6:#Aqui sales del menu
-                  break
-            else:
-                  print("Dato no valido, indicar un numero comprendido entre 1-5")
- 
+           print("Aqui se cargan las misiones")
+        elif eleccion ==6:#Aqui sales del menu
+            break
+        else:
+            print("Dato no valido, indicar un numero comprendido entre 1-5")
+    
+                        if len(armas) > 7:
+                              print("El número máximo de armas es 7. Excediste el límite.")
+                              armas = armas[:7]  # Limita la lista a 7 armas
+    
+                        print(f"Lista final de IDs de armas: {armas}")
+    
+                        
+    
+    
+                        
+                        tripulacion=[]
+                        # se crea una lista de tripulacion a medida que vaya agregando personas y asi llevar un conteo 
+                        # y detenerlo hasta que llegue a 5
+                        url="https://www.swapi.tech/api/people" #consume la api directamente en la parte de people que es lo que se usa
+                        datos=cargar_info(url)
+                        data=datos["results"]
+                        for names in data:
+                            print(names['name'].lower().strip().replace(" ","")) 
+                        while len(tripulacion)<5:
+    
+                              IngresarTripulacion=input("Ingresa el nombre del personajes a seleccionar o copie y pegue el nombre,  o presiona 'fin' si deseas salir: ").lower()
+                              while not IngresarTripulacion.strip():
+                                    IngresarTripulacion=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                              if IngresarTripulacion=='fin':
+                                    break
+                              #se recorrera la api para buscar y verificar que el nombre que ingreso el usuario exista en las opciones ofrecidas anteriormente
+                              encontrado=False
+                              for names in data:
+                                    if names['name'].lower().replace(" ", "") == IngresarTripulacion.replace(" ", ""):
+                                    
+                                          encontrado = True
+                                          nombreReal = names['name']
+                                          break
+        
+                              if encontrado:
+                                    if nombreReal not in tripulacion:
+                                          tripulacion.append(names['name'])
+                                          print(f"{nombreReal} agregado a la tripulación!")
+                                    else:
+                                          print(f"{nombreReal} ya está en la tripulación. No se puede REPETIR.")            
+                                          
+                              else:
+                                    print("Nombre inválido, solo se pueden ingresar nombres que se encuentren en la lista mencionada")
+    
+                        if  len(tripulacion)>5:
+                            print("El maximo de tripulacion es de 5 tripulantes.")
+                      #aca se iran agregando los datos a la lista de misiones 
+
 def obtener_info(films, people, planets, species, starships, vehicles):
       url = "https://www.swapi.tech/api"
       links = requests.get(url).json()["result"]
@@ -620,7 +686,6 @@ def obtener_info(films, people, planets, species, starships, vehicles):
                               '''
                               planeta = Planeta(infoo["properties"]["name"], infoo["properties"]["orbital_period"], infoo["properties"]["rotation_period"], infoo["properties"]["climate"], infoo["properties"]["population"], [], [], infoo["uid"])
                               planets.append(planeta)
-
                         link = r["next"]
 
             elif link == "species":
