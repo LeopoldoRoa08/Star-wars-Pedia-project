@@ -259,12 +259,12 @@ def estadisticas_naves():
       maxymin4 = maximo_minimo(listado, 3)
 
 
-      print("\nCaracteristicas                     |    promedio            |    moda    |    maximo y minimo       |")
-      print("------------------------------------------------------------------------------------------------------")
-      print(f"Clasificación de hiperimpulsor      |    {promedio1}  |    {moda1}     |    {maxymin1}            |")
-      print(f"MGLT                                |    {promedio2}   |    {moda2}    |    {maxymin2}          |")
-      print(f"Velocidad máxima en atmósfera       |    {promedio3}   |    {moda3}   |    {maxymin3}         |")
-      print(f"Costo por creditos                  |    {promedio4}         |    {moda4}     |    {maxymin4}   |")
+      print("\nCaracteristicas                     |    promedio            |    moda          |    maximo y minimo          |")
+      print("-----------------------------------------------------------------------------------------------------------------------")
+      print(f"Clasificación de hiperimpulsor      |    {promedio1}          |    {moda1}       |    {maxymin1}               |")
+      print(f"MGLT                                |    {promedio2}          |    {moda2}       |    {maxymin2}               |")
+      print(f"Velocidad máxima en atmósfera       |    {promedio3}          |    {moda3}       |    {maxymin3}               |")
+      print(f"Costo por creditos                  |    {promedio4}          |    {moda4}       |    {maxymin4}               |")
 
 
 
