@@ -104,6 +104,7 @@ def verPlanetas(planets):
 def verPelis(films):
       print("ver peliculas")
       for film in films:
+            film:PeliculaSaga
             film.Details()
 
 #funcion encargada de buscar a una persona por su nombre,
