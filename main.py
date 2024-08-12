@@ -24,7 +24,7 @@ def main():
       obtener_info(films, people, planets, species, starships, vehicles)
 
       print("             En un lugar muy lejano                  ")
-      print("             Donde hay multiples opciones           ")
+      print("           Donde hay multiples opciones           ")
       print("                Tu eres el indicado                   ")
       print("               Para tomar la opcion CORRECTA     ")
       print("                        ")
