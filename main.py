@@ -99,6 +99,7 @@ def verEspecie(species):
 def verPlanetas(planets):
       print("ver planetas")
       for planet in planets:
+            planet:Planeta
             planet.Details()
 
 def verPelis(films):
