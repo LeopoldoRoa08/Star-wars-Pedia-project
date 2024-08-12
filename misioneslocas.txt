@@ -5,3 +5,10 @@ Armas: 59
 Tripulación: R2-D2
  
  
+Nombre de la misión: mm
+Planeta destino: Mon Cala
+Nave: Naboo fighter
+Armas: 52, 53, 54, 55, 56, 57
+Tripulación: R2-D2, Darth Vader, Leia Organa, Owen Lars, Beru Whitesun lars
+ 
+ 

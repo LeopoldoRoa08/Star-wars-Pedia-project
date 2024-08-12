@@ -545,8 +545,8 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
 
             elif eleccion==3:
                  for showmission in listaMisiones:
-                       print(showmission.Details())
-                 misionaSeleccionar=input("Ingresa el NOMBRE de la mision que deseas modificar o escribe 'fin' para salir ").lower().strip()
+                       print(showmission.nombremision)
+                 misionaSeleccionar=input("Ingresa el NOMBRE de la mision que desea visualizar o escribe 'fin' para salir ").lower().strip()
                  if misionaSeleccionar=='fin':
                        break
                  misionEncontrada=False
@@ -554,7 +554,7 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                  #Se buscara en la lista de misiones por el nombre
 
                  for buscandoMisionSeleccionada in listaMisiones:
-                        if buscandoMisionSeleccionada["nombremision"].lower().strip()== misionaSeleccionar:
+                        if buscandoMisionSeleccionada.nombremision.lower().strip()== misionaSeleccionar:
                               misionEncontrada=True
                               mision=buscandoMisionSeleccionada
                  print("La mision que has escogido es: ")
