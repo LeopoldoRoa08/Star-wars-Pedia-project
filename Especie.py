@@ -19,4 +19,8 @@ class Especie:
         Idioma:{self.language}
         Personas:{self.people}
         Episodios: {self.episode}
+<<<<<<< Updated upstream
         """)
+=======
+        """)
+>>>>>>> Stashed changes
