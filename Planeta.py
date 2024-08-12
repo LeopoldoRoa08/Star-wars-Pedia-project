@@ -10,14 +10,13 @@ class Planeta:
         self.uid = uid
 
 
-def Details(self):
-    print( f"""
-        Nombre: {self.name}
-        Periodo de Orbita:{self.orbital_period}
-        Período de rotación: {self.rotation_period}
-        Clima: {self.climate}
-        Poblacion: {self.population}
-        Episodios: {self.episode}
-        Personajes: {self.people}
-    """)
-
+    def Details(self):
+        print( f"""
+    Nombre: {self.name}
+    Periodo de Orbita:{self.orbital_period}
+    Período de rotación: {self.rotation_period}
+    Clima: {self.climate}
+    Poblacion: {self.population}
+    Episodios: {self.episode}
+    Personajes: {self.people}
+        """)
