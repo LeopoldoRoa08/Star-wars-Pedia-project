@@ -14,7 +14,7 @@ import csv
 #Funcion main encargada de detallar las opciones que tiene para escoger el usuario,
 #cuyas opciones corresponden a cada opcion indicada en el archivo del proyecto.
 def main():
-      films = []
+films = []
       people = []
       planets = []
       species = []
