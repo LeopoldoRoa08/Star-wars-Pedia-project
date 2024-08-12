@@ -11,7 +11,7 @@ class Especie:
 
 
     def Details(self):
-     print(f"""
+        print(f"""
         Nombre de la especie: {self.name}
         Altura:{self.average_height}
         Clasificacion:{self.classification}
@@ -19,8 +19,4 @@ class Especie:
         Idioma:{self.language}
         Personas:{self.people}
         Episodios: {self.episode}
-<<<<<<< Updated upstream
         """)
-=======
-        """)
->>>>>>> Stashed changes
