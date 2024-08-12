@@ -1,5 +1,6 @@
 import json
 import csv
+from Mision import Mision
 from urllib.request import Request, urlopen
 
 def cargar_info(url):
@@ -41,4 +42,37 @@ def cargar_infoCSV(file_path):
         print("ID no válido. Por favor, elige un ID válido.")
 
 # Ruta del archivo CSV
-path = r"C:\ArchivosViejosOneDrive\Documentos\AbrahamProject\csv\weapons.csv"
+path = "csv/weapons.csv"
+
+#encargada de cargar las misiones guardadas en el archivo
+#con una restriccion para que no se pueda agregar un archivo sin terminacion de .txt
+
+def cargar_misiones_desde_txt(nombre_archivo):
+        misiones = []
+        extensionArchivo=nombre_archivo[-4:]
+        if extensionArchivo!='.txt':
+            print("no pertenece a un archivo txt")
+            return  misiones
+
+        
+    
+        with open(nombre_archivo, 'r') as archivo:
+            contenido = archivo.read().strip()
+            bloques_misiones = contenido.split("\n\n")  # Cada misión está separada por dos saltos de línea
+            
+            for bloque in bloques_misiones:
+                lineas = bloque.split("\n")
+                nombremision = lineas[0].split(": ")[1]
+                planetadestino = lineas[1].split(": ")[1]
+                nave = lineas[2].split(": ")[1]
+                armas = lineas[3].split(": ")[1].split(", ")
+                tripulacion = lineas[4].split(": ")[1].split(", ")
+
+                # Crear la instancia de Mision
+                mision = Mision(nombremision, planetadestino, nave, armas, tripulacion)
+                misiones.append(mision)
+    
+    
+        print(f"El archivo {nombre_archivo} no se encontró.")
+    
+        return misiones

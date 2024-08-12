@@ -7,7 +7,7 @@ from Planeta import Planeta
 from Vehiculo import Vehiculo
 
 
-from LoadFiles import cargar_info
+from LoadFiles import cargar_info,cargar_misiones_desde_txt
 import matplotlib.pyplot as plt
 import requests
 import csv
@@ -22,7 +22,7 @@ def main():
       starships = []
       vehicles = []
       listaMisiones = []
-      #obtener_info(films, people, planets, species, starships, vehicles)
+      obtener_info(films, people, planets, species, starships, vehicles)
       
       print("                En un lugar muy lejano                  ")
       print("             Donde hay multiples opciones           ")
@@ -121,7 +121,7 @@ def buscarPersona(people):
                   aux = aux + 1
 #funcion encargada de mostrar un grafico de cada personaje nacido en cada planeta
 def grafica_personajesnacidos():
-      print("se muestra garfica")
+      print("se muestra grafica")
       numeros = {}
       planets = []
       dato = []
@@ -259,7 +259,7 @@ def estadisticas_naves():
       print(f"Costo por creditos                  |    {promedio4}         |    {moda4}     |    {maxymin4}   |")
 
 
-      def promedio(data, caracteristica):
+def promedio(data, caracteristica):
       numbers = []
       for item in data:
             n=float(item[caracteristica])
@@ -305,7 +305,7 @@ def maximo_minimo(lista, caracteristica):
 
 #funcion que permite crear un equipo, nombre, planeta de destino, nave a utilizar, armas a utilizar y nombre de la mision
 def construirMision(films, people, planets, species, starships, vehicles, listaMisiones):
-    listaMisiones=[]
+    
     print("="*70)
     print("Preparate para crear una mision a tu conveniencia")
     print("Que deseas hacer?")
@@ -314,8 +314,9 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
         print("1)Crear mision ")
         print("2)Editar mision")
         print("3)Visualizar mision")
-        print("4)Cargar misiones guardadas (del TXT)")
-        print("5)Regresar al menu")
+        print("4)Guardar misiones  en el TXT)")
+        print("5)Cargar misiones guardadas en el TXT")
+        print("6)Regresar al menu")
         try:
             eleccion=int(input("Escribe el numero correspondiente a lo que deseas: "))
         except ValueError:
@@ -325,7 +326,7 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
             
                 if len(listaMisiones)<5:
                    
-                    nombreMision=input("Indicanos el nombre de la SUPER mision o presiona 'fin' si deseas salir: ").lower()
+                    nombreMision=input("Indicanos el nombre de la SUPER mision: ").lower()
                     while not nombreMision.strip():
                         nombreMision=input("No puede estar vacia o presiona 'fin' si deseas salir: ")# validacion para que no quede vacia
                     
@@ -337,8 +338,10 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               planet.Details()
                     
                     planeta=input("Indicanos el nombre del PLANETA al que deseas viajar o presiona 'fin' si deseas salir: ")
-                    while not planeta.isnumeric() or not int(planeta) in range(0, len(planets)):
+                    while not planeta.isnumeric() or not int(planeta) in range(1, len(planets)+1):
                         planeta=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                        if planeta=='fin':
+                                    break
                     
                     planeta = planets[int(planeta)-1].name
                         
@@ -348,8 +351,10 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               starship.Details()
                     
                     nave=input("Indicanos la NAVE que deseas utilizar o presiona 'fin' si deseas salir: ")
-                    while not nave.isnumeric() or not int(nave) in range(0, len(starships)):
+                    while not nave.isnumeric() or not int(nave) in range(1, len(starships)+1):
                         nave=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
+                        if nave=='fin':
+                                    break
                     
                     nave = starships[int(nave)-1].name
                     
@@ -446,12 +451,121 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                     listaMisiones.append(misionObject)
                 else:
                      print("El maximo de misiones a crear son 5")
-        elif eleccion==2:
-            print("se puede editar una mision")
+        elif eleccion==2:  # Aquí se escoge editar misión
+            # Se imprime la lista de misiones
+                  if len(listaMisiones) == 0:
+                        print("No se ha creado ninguna misión.")
+                        print("Crea una primero y luego vuelve para editar.")
+                  else:
+                        # Mostrar la lista de misiones con sus detalles
+                        for index, busquedadeMisiones in enumerate(listaMisiones):
+                              print(f"{index + 1}.")
+                              busquedadeMisiones.Details()
+                        
+                        # Solicitar al usuario que ingrese el nombre de la misión a modificar
+                        misionaSeleccionar = input("Ingresa el NOMBRE de la misión que deseas modificar: ").lower().strip()
+                        misionEncontrada = False
+                        mision = None
+                        
+                        # Buscar la misión en la lista por su nombre
+                        for buscandoMisionSeleccionada in listaMisiones:
+                              if buscandoMisionSeleccionada.nombremision.lower().strip() == misionaSeleccionar:
+                                    misionEncontrada = True
+                                    mision = buscandoMisionSeleccionada
+                                    break
+                        
+                        if misionEncontrada:
+                              print("Escogiste la misión:")
+                              mision.Details()
+                              print("¿Qué deseas editar?")
+                              print("""
+                                    1) Eliminar arma
+                                    2) Agregar arma
+                                    3) Eliminar tripulante
+                                    4) Agregar tripulante
+                                    """)
+                              
+                              decision = input("--> ").strip()
+                              
+                              if decision == "1":#aqui se eliminan las armas
+                                    
+                                    print("Armas disponibles:")
+                                    for index, arma in enumerate(mision.armas):
+                                          print(f"{index + 1}. {arma}")
+                              
+                                    
+                                    arma_a_eliminar = input("Ingresa el nombre del arma que deseas eliminar: ").strip()
+                              
+                                    
+                                    mision.eliminar_arma(arma_a_eliminar)
+                              
+                                    print("Arma eliminada. Detalles actualizados de la misión:")
+                                    mision.Details()
+                              
+                              elif decision == "2":# aqui se agrega un arma a la misión
+                                    
+                                    nueva_arma = input("Ingresa el nombre del arma que deseas agregar: ").strip()
+                                    mision.armas.append(nueva_arma)
+                              
+                                    print("Arma agregada. Detalles actualizados de la misión:")
+                                    mision.Details()
+
+                              elif decision == "3":
+                              
+                                    print("Tripulantes disponibles:")
+                                    for index, tripulante in enumerate(mision.tripulacion):
+                                          print(f"{index + 1}. {tripulante}")
+                              
+                                    
+                                    tripulante_a_eliminar = input("Ingresa el nombre del tripulante que deseas eliminar: ").strip()
+                              
+                                    
+                                    mision.eliminar_tripulacion(tripulante_a_eliminar)
+                              
+                                    print("Tripulante eliminado. Detalles actualizados de la misión:")
+                                    mision.Details()
+
+                              elif decision == "4":#aca se agrega un tripulante
+                                    nuevo_tripulante = input("Ingresa el nombre del tripulante que deseas agregar: ").strip()
+                                    mision.tripulacion.append(nuevo_tripulante)
+                
+                                    print("Tripulante agregado. Detalles actualizados de la misión:")
+                                    mision.Details()
+                
+                              else:
+                                    print("Opción no válida.")
+                        else:
+                              print("Misión no encontrada.")
+
+            
         elif eleccion==3:
+            for showmission in listaMisiones:
+                       print(showmission.Details())
+            misionaSeleccionar=input("Ingresa el NOMBRE de la mision que deseas modificar o escribe 'fin' para salir ").lower().strip()
+            if misionaSeleccionar=='fin':
+                       break
+            misionEncontrada=False
+            mision =""
+                 #Se buscara en la lista de misiones por el nombre
+
+            for buscandoMisionSeleccionada in listaMisiones:
+                        if buscandoMisionSeleccionada["nombremision"].lower().strip()== misionaSeleccionar:
+                              misionEncontrada=True
+                              mision=buscandoMisionSeleccionada
+            print("La mision que has escogido es: ")
+            print(mision.Details())
             print("visualizas una mision")
-        elif eleccion ==5:
-              break
+        elif eleccion==4:#Aqui se guarda en el txt
+           for mision in listaMisiones:
+                        mision.guardar_misiones("misioneslocas.txt")
+           print("Se ha guardado con exito\n")
+        elif eleccion ==5:#Aqui se cargan las misiones guardadas en el txt
+           listaMisiones=cargar_misiones_desde_txt("misioneslocas.txt")
+           for mis in listaMisiones:
+                        mis.Details()
+           print("Aqui se cargan las misiones")
+        elif eleccion ==6:#Aqui sales del menu
+            break
         else:
             print("Dato no valido, indicar un numero comprendido entre 1-5")
     
