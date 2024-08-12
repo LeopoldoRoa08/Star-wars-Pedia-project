@@ -148,7 +148,7 @@ def grafica_personajesnacidos():
       
       
       plt.figure(figsize=(15, 4))
-      plt.plot(planets, dato)
+      plt.bar(planets, dato)
       plt.xlabel('Planetas')
       plt.ylabel('Cantidad Nacidos')
       plt.show()
@@ -585,7 +585,25 @@ def obtener_info(films, people, planets, species, starships, vehicles):
                   info= info["result"]
                   for f in range(0, len(info)):
                         #print(info[f]["properties"]["title"])
+
+                        for i, c in enumerate(info[f]["properties"]["characters"]):
+                              info[f]["properties"]["characters"][i] = c.split("/")[-1]
+
+                        for i, c in enumerate(info[f]["properties"]["planets"]):
+                              info[f]["properties"]["planets"][i] = c.split("/")[-1]
+
+                        for i, c in enumerate(info[f]["properties"]["starships"]):
+                              info[f]["properties"]["starships"][i] = c.split("/")[-1]
+
+                        for i, c in enumerate(info[f]["properties"]["vehicles"]):
+                              info[f]["properties"]["vehicles"][i] = c.split("/")[-1]
+
+                        for i, c in enumerate(info[f]["properties"]["species"]):
+                              info[f]["properties"]["species"][i] = c.split("/")[-1]
+
+
                         pelicula = PeliculaSaga(info[f]["properties"]["title"], info[f]["properties"]["episode_id"], info[f]["properties"]["release_date"], info[f]["properties"]["opening_crawl"], info[f]["properties"]["director"], info[f]["properties"]["characters"], info[f]["properties"]["planets"], info[f]["properties"]["starships"], info[f]["properties"]["vehicles"], info[f]["properties"]["species"], info[f]["uid"])
+                        #print(pelicula.characters)
                         films.append(pelicula)
 
             elif link == "people":
@@ -596,13 +614,15 @@ def obtener_info(films, people, planets, species, starships, vehicles):
 
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
-                              '''
-                              info["properties"]["episode"]
-                              info["properties"]["species"]
-                              info["properties"]["starship"]
-                              info["properties"]["vehicles"]
-                              '''
-                              personaje = Personaje(infoo["properties"]["name"], infoo["properties"]["homeworld"], [], infoo["properties"]["gender"], [], [], [], infoo["uid"])
+                              infoo["properties"]["homeworld"] = infoo["properties"]["homeworld"].split("/")[-1]
+
+                              personaje = Personaje(infoo["properties"]["name"], infoo["properties"]["homeworld"], [], infoo["properties"]["gender"], "", [], [], infoo["uid"])
+                              for f in films:
+                                    if infoo["uid"] in f.characters:
+                                          personaje.episode.append(f.title)
+
+                              
+                              
                               people.append(personaje)
                         link = r["next"]
                         
@@ -614,11 +634,16 @@ def obtener_info(films, people, planets, species, starships, vehicles):
 
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
-                              '''
-                              infoo["properties"]["episode"]
-                              infoo["properties"]["people"],
-                              '''
+
                               planeta = Planeta(infoo["properties"]["name"], infoo["properties"]["orbital_period"], infoo["properties"]["rotation_period"], infoo["properties"]["climate"], infoo["properties"]["population"], [], [], infoo["uid"])
+                              for f in films:
+                                    if infoo["uid"] in f.planets:
+                                          planeta.episode.append(f.title)
+
+                              for f in people:
+                                    if infoo["uid"] in f.homeworld:
+                                          planeta.people.append(f.name)
+
                               planets.append(planeta)
 
                         link = r["next"]
@@ -631,12 +656,24 @@ def obtener_info(films, people, planets, species, starships, vehicles):
 
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
-                              '''
-                              infoo["properties"]["people"]
-                              infoo["properties"]["episode"]
-                              '''
-                              especie = Especie(infoo["properties"]["name"], infoo["properties"]["average_height"], infoo["properties"]["classification"], infoo["properties"]["homeworld"], infoo["properties"]["language"], [], [], infoo["uid"])
+
+                              for i, c in enumerate(infoo["properties"]["people"]):
+                                    infoo["properties"]["people"][i] = c.split("/")[-1]
+
+                              especie = Especie(infoo["properties"]["name"], infoo["properties"]["average_height"], infoo["properties"]["classification"], infoo["properties"]["homeworld"], infoo["properties"]["language"], infoo["properties"]["people"], [], infoo["uid"])
+                              for f in films:
+                                    if infoo["uid"] in f.species:
+                                          especie.episode.append(f.title)
+                                       
+                              for j, f in enumerate(people):
+                                    for i, id in enumerate(infoo["properties"]["people"]):
+                                          if f.uid == id:
+                                                id = f.name
+                                                people[j].species = especie.name
+
+
                               species.append(especie)
+
                         link = r["next"]
 
             elif link == "starships":
@@ -647,7 +684,18 @@ def obtener_info(films, people, planets, species, starships, vehicles):
 
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
+
+                              for i, c in enumerate(infoo["properties"]["pilots"]):
+                                    infoo["properties"]["pilots"][i] = c.split("/")[-1]
+
                               nave = Nave(infoo["properties"]["model"], infoo["properties"]["starship_class"], infoo["properties"]["manufacturer"], infoo["properties"]["cost_in_credits"], infoo["properties"]["length"], infoo["properties"]["crew"], infoo["properties"]["passengers"], infoo["properties"]["max_atmosphering_speed"], infoo["properties"]["hyperdrive_rating"], infoo["properties"]["MGLT"], infoo["properties"]["cargo_capacity"], infoo["properties"]["consumables"], infoo["properties"]["pilots"], infoo["properties"]["name"], infoo["uid"])
+                              
+                              for f in people:
+                                    if f.uid in nave.pilots:
+                                          nave.pilots.append(f.name)
+                                          f.starship.append(nave.name)
+                              
+                              
                               starships.append(nave)
                         link = r["next"]
             elif link == "vehicles":
@@ -656,11 +704,23 @@ def obtener_info(films, people, planets, species, starships, vehicles):
                         r = requests.get(link).json()
                         info = r['results']
 
+
                         for f in range(0, len(info)):
                               infoo = (requests.get(info[f]["url"]).json())['result']
+
+                              for i, c in enumerate(infoo["properties"]["pilots"]):
+                                    infoo["properties"]["pilots"][i] = c.split("/")[-1]
+
                               vehiculo = Vehiculo(infoo["properties"]["model"],infoo["properties"]["vehicle_class"],infoo["properties"]["manufacturer"],infoo["properties"]["cost_in_credits"],infoo["properties"]["length"],infoo["properties"]["crew"],infoo["properties"]["passengers"],infoo["properties"]["max_atmosphering_speed"],infoo["properties"]["cargo_capacity"],infoo["properties"]["consumables"],infoo["properties"]["films"],infoo["properties"]["pilots"],infoo["properties"]["name"],infoo["uid"])
+                              for f in people:
+                                    if f.uid in nave.pilots:
+                                          nave.pilots.append(f.name)
+                                          f.starship.append(nave.name)
+                              
+                              
                               vehicles.append(vehiculo)
                         link = r["next"]
+
 
 
 main()

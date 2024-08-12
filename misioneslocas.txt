@@ -1,0 +1,7 @@
+Nombre de la misión: ad
+Planeta destino: Tatooine
+Nave: CR90 corvette
+Armas: 59
+Tripulación: R2-D2
+ 
+ 
