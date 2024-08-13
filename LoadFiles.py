@@ -54,23 +54,21 @@ def cargar_misiones_desde_txt(nombre_archivo):
             print("no pertenece a un archivo txt")
             return  misiones
 
-        
-    
-        with open(nombre_archivo, 'r') as archivo:
-            contenido = archivo.read().strip()
-            bloques_misiones = contenido.split("\n\n")  # Cada misión está separada por dos saltos de línea
-            
-            for bloque in bloques_misiones:
-                lineas = bloque.split("\n")
-                nombremision = lineas[0].split(": ")[1]
-                planetadestino = lineas[1].split(": ")[1]
-                nave = lineas[2].split(": ")[1]
-                armas = lineas[3].split(": ")[1].split(", ")
-                tripulacion = lineas[4].split(": ")[1].split(", ")
+        lineas = []
 
-                # Crear la instancia de Mision
-                mision = Mision(nombremision, planetadestino, nave, armas, tripulacion)
-                misiones.append(mision)
+
+        with open(nombre_archivo, 'r') as archivo:
+            for linea in archivo:
+                linea = linea.strip()
+                lineas.append(linea)
+                
+        for i, linea in enumerate(lineas):
+            lineas[i] = linea.split("***")
+            lineas[i][3] = lineas[i][3].split(", ")
+            lineas[i][4] = lineas[i][4].split(", ")
+
+            mision = Mision(lineas[i][0], lineas[i][1], lineas[i][2], lineas[i][3], lineas[i][4])
+            misiones.append(mision)
     
     
         print(f"El archivo {nombre_archivo} no se encontró.")

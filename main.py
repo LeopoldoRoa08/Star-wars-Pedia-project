@@ -23,8 +23,8 @@ def main():
       listaMisiones = []
       obtener_info(films, people, planets, species, starships, vehicles)
 
-      print("             En un lugar muy lejano                  ")
-      print("           Donde hay multiples opciones           ")
+      print("                En un lugar muy lejano                  ")
+      print("             Donde hay multiples opciones           ")
       print("                Tu eres el indicado                   ")
       print("               Para tomar la opcion CORRECTA     ")
       print("                        ")
@@ -99,13 +99,11 @@ def verEspecie(species):
 def verPlanetas(planets):
       print("ver planetas")
       for planet in planets:
-            planet:Planeta
             planet.Details()
 
 def verPelis(films):
       print("ver peliculas")
       for film in films:
-            film:PeliculaSaga
             film.Details()
 
 #funcion encargada de buscar a una persona por su nombre,
@@ -261,12 +259,12 @@ def estadisticas_naves():
       maxymin4 = maximo_minimo(listado, 3)
 
 
-      print("\nCaracteristicas                     |    promedio            |    moda          |    maximo y minimo          |")
-      print("-----------------------------------------------------------------------------------------------------------------------")
-      print(f"Clasificación de hiperimpulsor      |    {promedio1}          |    {moda1}       |    {maxymin1}               |")
-      print(f"MGLT                                |    {promedio2}          |    {moda2}       |    {maxymin2}               |")
-      print(f"Velocidad máxima en atmósfera       |    {promedio3}          |    {moda3}       |    {maxymin3}               |")
-      print(f"Costo por creditos                  |    {promedio4}          |    {moda4}       |    {maxymin4}               |")
+      print("\nCaracteristicas                     |    promedio            |    moda    |    maximo y minimo       |")
+      print("------------------------------------------------------------------------------------------------------")
+      print(f"Clasificación de hiperimpulsor      |    {promedio1}  |    {moda1}     |    {maxymin1}            |")
+      print(f"MGLT                                |    {promedio2}   |    {moda2}    |    {maxymin2}          |")
+      print(f"Velocidad máxima en atmósfera       |    {promedio3}   |    {moda3}   |    {maxymin3}         |")
+      print(f"Costo por creditos                  |    {promedio4}         |    {moda4}     |    {maxymin4}   |")
 
 
 
@@ -372,9 +370,9 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
     
                         
                         # Ruta del archivo CSV
-                        path = r"csv\weapons.csv"
+                        path = "csv\weapons.csv"
                         # Lee el archivo CSV y guarda los datos
-                        with open(path, mode='r', encoding='utf-8') as file:
+                        with open("csv\weapons.csv", mode='r', encoding='utf-8') as file:
                               reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
                         
                         # Imprimir solo el nombre de cada arma
@@ -386,9 +384,10 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                         # Selección de armas por nombre
                         while len(armas) < 7:
                               nombre_arma = input("Ingresa el nombre del arma a seleccionar o presiona 'fin' si deseas salir: ").strip().lower()
-                            
-                              if nombre_arma == 'fin':
+                              if nombre_arma=='fin' and len(armas)>=1:
                                     break
+                              if len(armas)==0 and nombre_arma=='fin':
+                                    print("Debe ingresar al menos un tripulantes")
                             
                               # Verifica que el nombre ingresado no esté vacío
                               if not nombre_arma:
@@ -399,7 +398,7 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               if nombre_arma in armas_dict:
                                     arma_id = armas_dict[nombre_arma]
                                     if arma_id not in armas:
-                                          armas.append(arma_id)
+                                          armas.append(nombre_arma)
                                           print(f"Arma '{nombre_arma}' con ID {arma_id} agregada a la lista.")
                                     else:
                                           print(f"El arma '{nombre_arma}' ya está en la lista.")
@@ -429,8 +428,10 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                               IngresarTripulacion=input("Ingresa el nombre del personajes a seleccionar o copie y pegue el nombre,  o presiona 'fin' si deseas salir: ").lower()
                               while not IngresarTripulacion.strip():
                                     IngresarTripulacion=input("No puede estar vacia o presiona 'fin' si deseas salir: ")
-                              if IngresarTripulacion=='fin':
+                              if IngresarTripulacion=='fin' and len(tripulacion)>=1:
                                     break
+                              if len(tripulacion)==0 and IngresarTripulacion=='fin':
+                                    print("Debe ingresar al menos un tripulantes")
                               #se recorrera la api para buscar y verificar que el nombre que ingreso el usuario exista en las opciones ofrecidas anteriormente
                               encontrado=False
                               for names in data:
@@ -449,7 +450,9 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                                           
                               else:
                                     print("Nombre inválido, solo se pueden ingresar nombres que se encuentren en la lista mencionada")
-    
+                              
+
+
                         if  len(tripulacion)>5:
                             print("El maximo de tripulacion es de 5 tripulantes.")
                       #aca se iran agregando los datos a la lista de misiones 
@@ -562,9 +565,13 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
                  print("La mision que has escogido es: ")
                  print(mision.Details())
             elif eleccion==4:#Aqui se guarda en el txt
+                  with open("misioneslocas.txt", 'w') as archivo:
+                        pass
                   for mision in listaMisiones:
                         mision.guardar_misiones("misioneslocas.txt")
                   print("Se ha guardado con exito\n")
+
+
             elif eleccion==5:#Aqui se cargan las misiones guardadas en el txt
                   listaMisiones=cargar_misiones_desde_txt("misioneslocas.txt")
                   for mis in listaMisiones:

@@ -20,3 +20,4 @@ class Especie:
         Personas:{self.people}
         Episodios: {self.episode}
         """)
+        

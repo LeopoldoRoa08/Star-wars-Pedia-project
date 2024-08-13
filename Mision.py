@@ -30,12 +30,10 @@ class Mision:
     #se pasa por parametro el nombre de un archiv
     #con el metodo write se especifica lo que es y se llama asi mismo el parametro de la clase
     def guardar_misiones(self,nombre_archivo):
+        
+
         with open(nombre_archivo,'a') as archivo:
-            archivo.write(f"Nombre de la misión: {self.nombremision}\n")
-            archivo.write(f"Planeta destino: {self.planetadestino}\n")
-            archivo.write(f"Nave: {self.nave}\n")
-            archivo.write(f"Armas: {', '.join(self.armas)}\n")
-            archivo.write(f"Tripulación: {', '.join(self.tripulacion)}\n \n \n")
+            archivo.write(f"{self.nombremision}***{self.planetadestino}***{self.nave}***{', '.join(self.armas)}***{', '.join(self.tripulacion)}\n")
 
     def Details(self):
         print(f"""
