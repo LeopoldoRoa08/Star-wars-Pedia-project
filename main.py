@@ -370,9 +370,9 @@ def construirMision(films, people, planets, species, starships, vehicles, listaM
     
                         
                         # Ruta del archivo CSV
-                        path = "csv\weapons.csv"
+                        path = "csv/weapons.csv"
                         # Lee el archivo CSV y guarda los datos
-                        with open("csv\weapons.csv", mode='r', encoding='utf-8') as file:
+                        with open("csv/weapons.csv", mode='r', encoding='utf-8') as file:
                               reader = list(csv.DictReader(file))  # Lee todo el archivo a una lista
                         
                         # Imprimir solo el nombre de cada arma
